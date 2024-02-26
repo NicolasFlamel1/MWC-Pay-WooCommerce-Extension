@@ -2,3 +2,15 @@
 
 ### Description
 [MWC Pay](https://github.com/NicolasFlamel1/MWC-Pay) extension for WooCommerce that allows WordPress sites to accept MimbleWimble Coin payments.
+
+### Installing
+Download this extension's [newest release](https://github.com/NicolasFlamel1/MWC-Pay-WooCommerce-Extension/releases) and choose to upload it as a plugin on your WordPress site's add plugins page. After it's been installed and activated, a MWC Pay payment option will be available for your customers to use during checkout.
+
+This extension relies on you running your own MWC Pay instance. This can be done by downloading and running [MWC Pay's newest release](https://github.com/NicolasFlamel1/MWC-Pay/releases) on the same server that's hosting your WordPress site. Your MWC Pay instance will provide you with its wallet's recovery passphrase that you can use with any MimbleWimble Coin wallet software to access the MimbleWimble Coin that your WordPress site receives as payments.
+
+### Features
+This extension provides the following features:
+* Adds a MWC Pay payment method to WooCommerce's list of payment methods.
+* Allows providing a discount or charging a surcharge to orders that use the MWC Pay payment method.
+* Adds a MimbleWimble Coin accepted here badge to the list of available blocks that can be used in WordPress's block editor.
+* Adds MimbleWimble Coin to WooCommerce's list of currencies.

@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "mwc-pay-woocommerce-extension/mimblewimble-coin-accepted-here-badge",
+	"version": "0.1.0",
+	"title": "MimbleWimble Coin Accepted Here Badge",
+	"category": "mwc-pay-woocommerce-extension",
+	"description": "Displays a MimbleWimble Coin accepted here badge.",
+	"icon": "info-outline",
+	"textdomain": "mwc-pay-woocommerce-extension",
+	"keywords": ["MWC"],
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"color": {
+					"background": "var(--wp--preset--color--base)",
+					"text": "var(--wp--preset--color--contrast)"
+				},
+				"typography": {
+					"fontSize": "0.8rem",
+					"lineHeight": "1.45",
+					"fontFamily": "inherit",
+					"fontWeight": "normal",
+					"fontStyle": "normal",
+					"textTransform": "none",
+					"textDecoration": "none",
+					"letterSpacing": "1px"
+				}
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full", "wide"],
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true
+		},
+		"layout": {
+			"allowInheriting": false,
+			"allowVerticalAlignment": false,
+			"allowOrientation": false,
+			"allowCustomContentAndWideSize": false,
+			"default": {
+				"type": "flex",
+				"flexWrap": "nowrap"
+			}
+		}
+	},
+	"editorScript": "file:./index.min.js",
+	"style": "file:./style-index.min.css",
+	"render": "file:./render.php"
+}

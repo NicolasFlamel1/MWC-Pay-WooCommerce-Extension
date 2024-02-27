@@ -30,7 +30,7 @@
 			// Style
 			style: wp.blockEditor.useBlockProps().style
 			
-		}, wp.element.concatChildren([
+		}, [
 	
 			// Image
 			wp.element.createElement("img", {
@@ -43,14 +43,14 @@
 			}),
 			
 			// Text
-			wp.element.createElement("p", null, wp.element.concatChildren([
+			wp.element.createElement("p", null, [
 			
 				// First line
 				wp.element.createElement("span", null, wp.i18n.__("MimbleWimble Coin", "mwc-pay-woocommerce-extension")),
 				
 				// Second line
 				wp.element.createElement("span", null, wp.i18n.__("Accepted here", "mwc-pay-woocommerce-extension"))
-			]))
-		])))
+			])
+		]))
 	});
 })();

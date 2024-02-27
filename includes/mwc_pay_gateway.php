@@ -1456,7 +1456,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						$priceInMwc = rtrim(rtrim((string)$valueInUsd->dividedBy($price, self::WC_Gateway_MWC_Pay_MIMBLEWIMBLE_COIN_NUMBER_OF_DECIMAL_DIGITS, Brick\Math\RoundingMode::UP), "0"), ".");
 						
 						// Return value with price in MimbleWimble Coin
-						return $value . "<span id=\"MwcPayWooCommerceExtension_checkout_total\"> <bdi>(≈&zwj;" . self::WC_Gateway_MWC_Pay_localizeLargeNumber($priceInMwc) . ")</bdi></span>";
+						return $value . "<span id=\"MwcPayWooCommerceExtension_checkout_total\" class=\"MwcPayWooCommerceExtension_checkout_hide\"> <bdi>(≈&zwj;" . self::WC_Gateway_MWC_Pay_localizeLargeNumber($priceInMwc) . ")</bdi></span>";
 					}
 				}
 				
@@ -1473,8 +1473,8 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		// Apply discount or surcharge
 		public function WC_Gateway_MWC_Pay_applyDiscountOrSurchange(mixed $cart): void {
 		
-			// Use WordPress
-			global $wp;
+			// Use WordPress and is Safari
+			global $wp, $is_safari;
 			
 			// Initialize using this payment method
 			$usingThisPaymentMethod = FALSE;
@@ -1488,12 +1488,16 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					// Check if checkout page exists and it's using blocks
 					if(wc_get_page_id("checkout") !== -1 && WC_Blocks_Utils::has_block_in_page(wc_get_page_id("checkout"), "woocommerce/checkout") === TRUE) {
 					
-						// Check if the first available gateway is this payment method
-						$gateways = WC()->payment_gateways()->get_available_payment_gateways();
-						if(is_array($gateways) === TRUE && empty($gateways) === FALSE && current($gateways)->id === $this->id) {
+						// Check if browser isn't Safari
+						if(isset($is_safari) === FALSE || $is_safari === FALSE) {
 						
-							// Set using this payment method to true
-							$usingThisPaymentMethod = TRUE;
+							// Check if the first available gateway is this payment method
+							$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+							if(is_array($gateways) === TRUE && empty($gateways) === FALSE && current($gateways)->id === $this->id) {
+							
+								// Set using this payment method to true
+								$usingThisPaymentMethod = TRUE;
+							}
 						}
 					}
 				
@@ -1502,7 +1506,6 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					
 						// Set using this payment method to true
 						$usingThisPaymentMethod = TRUE;
-						
 					}
 					
 					// Otherwise check if session doesn't exist or doesn't have a chosen payment method

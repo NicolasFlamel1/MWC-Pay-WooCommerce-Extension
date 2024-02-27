@@ -43,6 +43,20 @@
 								// Update using this payment method
 								usingThisPaymentMethod = newUsingPaymentMethod;
 								
+								// Check if using this payment method
+								if(usingThisPaymentMethod === true) {
+								
+									// Show checkout total
+									$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+								}
+								
+								// Otherwise
+								else {
+								
+									// Hide checkout total
+									$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+								}
+								
 								// Check if payment method has a discount or surcharge
 								if(MwcPayWooCommerceExtension_checkout_script_parameters.has_discount_or_surcharge === true) {
 								
@@ -103,6 +117,20 @@
 							return next(options);
 						});
 						
+						// Check if using this payment method
+						if(usingThisPaymentMethod === true) {
+						
+							// Show checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+						
+						// Otherwise
+						else {
+						
+							// Hide checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+						
 						// Check if payment method has a discount or surcharge
 						if(MwcPayWooCommerceExtension_checkout_script_parameters.has_discount_or_surcharge === true) {
 						
@@ -137,12 +165,6 @@
 		const PRICE_CHANGED_EVENT = "MwcPayWooCommerceExtension_checkout_price_changed_event";
 		class PriceInCurrency extends React.Component {
 		
-			// Currency
-			#PriceInCurrency_currency;
-			
-			// On Price changed
-			#PriceInCurrency_onPriceChanged;
-			
 			// Constructor
 			constructor(props) {
 			
@@ -150,7 +172,7 @@
 				super(props);
 				
 				// Set currency
-				this.#PriceInCurrency_currency = wc.priceFormat.getCurrency({
+				this.PriceInCurrency_currency = wc.priceFormat.getCurrency({
 										
 					// Code
 					code: MwcPayWooCommerceExtension_base_script_parameters.currency_id,
@@ -169,7 +191,7 @@
 				});
 				
 				// Set on price changed
-				this.#PriceInCurrency_onPriceChanged = (() => {
+				this.PriceInCurrency_onPriceChanged = (() => {
 				
 					// Force update
 					this.forceUpdate();
@@ -198,7 +220,10 @@
 						return React.createElement("span", {
 					
 							// ID
-							id: "MwcPayWooCommerceExtension_checkout_total"
+							id: "MwcPayWooCommerceExtension_checkout_total",
+							
+							// Class name
+							className: "MwcPayWooCommerceExtension_checkout_hide"
 						}, [
 						
 							// Space
@@ -225,10 +250,10 @@
 									className: "MwcPayWooCommerceExtension_checkout_total_amount",
 									
 									// Currency
-									currency: this.#PriceInCurrency_currency,
+									currency: this.PriceInCurrency_currency,
 									
 									// Value
-									value: valueInUsd.dividedBy(MwcPayWooCommerceExtension_checkout_script_parameters.price).toFixed(this.#PriceInCurrency_currency.minorUnit, BigNumber.ROUND_UP).replace(".", "")
+									value: valueInUsd.dividedBy(MwcPayWooCommerceExtension_checkout_script_parameters.price).toFixed(this.PriceInCurrency_currency.minorUnit, BigNumber.ROUND_UP).replace(".", "")
 								}),
 								
 								// Close parenthesis
@@ -249,7 +274,21 @@
 				jQuery(($) => {
 				
 					// Add price changed event
-					$(document).on(PRICE_CHANGED_EVENT, this.#PriceInCurrency_onPriceChanged);
+					$(document).on(PRICE_CHANGED_EVENT, this.PriceInCurrency_onPriceChanged);
+					
+					// Check if using this payment method
+					if($("#radio-control-wc-payment-method-options-mwc_pay").is(":checked") === true) {
+					
+						// Show checkout total
+						$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+					}
+					
+					// Otherwise
+					else {
+					
+						// Hide checkout total
+						$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+					}
 				});
 			}
 			
@@ -260,7 +299,7 @@
 				jQuery(($) => {
 				
 					// Remove price changed event
-					$(document).off(PRICE_CHANGED_EVENT, this.#PriceInCurrency_onPriceChanged);
+					$(document).off(PRICE_CHANGED_EVENT, this.PriceInCurrency_onPriceChanged);
 				});
 			}
 		}
@@ -333,65 +372,35 @@
 			// MWC Pay WooCommerce extension checkout class
 			class MwcPayWooCommerceExtensionCheckout {
 			
-				// Modal
-				#modal;
-				
-				// Cancel button
-				#cancelButton;
-				
-				// Update status timeout
-				#updateStatusTimeout;
-				
-				// Amount
-				#amount;
-				
-				// Timeout
-				#timeout;
-				
-				// Update instructions timeout
-				#updateInstructionsTimeout;
-				
-				// Cancel API
-				#cancelApi;
-				
-				// Success callback
-				#successCallback;
-				
-				// Bypass unload interrupt
-				#bypassUnloadInterrupt;
-				
-				// Update price timeout
-				#updatePriceTimeout;
-				
 				// Constructor
 				constructor() {
 				
 					// Get modal
-					this.#modal = $("div#MwcPayWooCommerceExtension_checkout_modal");
+					this.modal = $("div#MwcPayWooCommerceExtension_checkout_modal");
 					
 					// Get modal's cancel button
-					this.#cancelButton = this.#modal.find("button");
+					this.cancelButton = this.modal.find("button");
 					
 					// Set update status timeout to null
-					this.#updateStatusTimeout = null;
+					this.updateStatusTimeout = null;
 					
 					// Set update instructions timeout to null
-					this.#updateInstructionsTimeout = null;
+					this.updateInstructionsTimeout = null;
 					
 					// Set bypass unload interrupt to false
-					this.#bypassUnloadInterrupt = false;
+					this.bypassUnloadInterrupt = false;
 					
 					// Set update price timeout to null
-					this.#updatePriceTimeout = null;
+					this.updatePriceTimeout = null;
 					
 					// Intercept checkout responses
-					this.#interceptCheckoutResponses();
+					this.interceptCheckoutResponses();
 					
 					// Update price
-					this.#updatePrice();
+					this.updatePrice();
 					
 					// Modal amount transition end event
-					this.#modal.on("transitionend", (event) => {
+					this.modal.on("transitionend", (event) => {
 					
 						// Stop propagation
 						event.stopPropagation();
@@ -415,7 +424,7 @@
 								try {
 								
 									// Write amount to clipboard
-									await navigator.clipboard.writeText(this.#amount);
+									await navigator.clipboard.writeText(this.amount);
 								}
 								
 								// Catch errors
@@ -430,7 +439,7 @@
 									amount.removeClass("MwcPayWooCommerceExtension_checkout_copied");
 								}
 								
-							}, MwcPayWooCommerceExtensionCheckout.#WRITE_TO_CLIPBOARD_DELAY_MILLISECONDS);
+							}, MwcPayWooCommerceExtensionCheckout.WRITE_TO_CLIPBOARD_DELAY_MILLISECONDS);
 						}
 					
 					// Modal URL click event
@@ -449,7 +458,7 @@
 							event.preventDefault();
 							
 							// Start transaction with the MWC Wallet extension and catch errors
-							MwcWallet.startTransaction(MwcWallet.MWC_WALLET_TYPE, MwcWallet.MAINNET_NETWORK_TYPE, link, this.#amount).catch((error) => {
+							MwcWallet.startTransaction(MwcWallet.MWC_WALLET_TYPE, MwcWallet.MAINNET_NETWORK_TYPE, link, this.amount).catch((error) => {
 							
 								// Trigger modal URL click event
 								event.originalEvent.target.click();
@@ -472,20 +481,20 @@
 					});
 					
 					// Modal cancel button click event
-					this.#cancelButton.on("click", () => {
+					this.cancelButton.on("click", () => {
 					
 						// Cancel order
-						fetch(this.#cancelApi);
+						fetch(this.cancelApi);
 						
 						// Hide payment info
-						this.#hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
+						this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
 					});
 					
 					// Window before unload event
 					$(window).on("beforeunload", (event) => {
 					
 						// Check if modal is shown and not bypassing unload interrupt
-						if(this.#modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === false && this.#bypassUnloadInterrupt === false) {
+						if(this.modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === false && this.bypassUnloadInterrupt === false) {
 						
 							// Prevent default to show interrupt prompt
 							event.preventDefault();
@@ -498,17 +507,17 @@
 					}).on("unload", () => {
 					
 						// Check if modal is shown and not bypassing unload interrupt
-						if(this.#modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === false && this.#bypassUnloadInterrupt === false) {
+						if(this.modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === false && this.bypassUnloadInterrupt === false) {
 						
 							// Trigger click on modal's cancel button
-							this.#cancelButton.trigger("click");
+							this.cancelButton.trigger("click");
 						}
 						
 						// Otherwise
 						else {
 						
 							// Hide payment info
-							this.#hidePaymentInfo();
+							this.hidePaymentInfo();
 						}
 					});
 					
@@ -525,6 +534,20 @@
 							// Update using this payment method
 							usingThisPaymentMethod = newUsingPaymentMethod;
 							
+							// Check if using this payment method
+							if(usingThisPaymentMethod === true) {
+							
+								// Show checkout total
+								$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+							}
+							
+							// Otherwise
+							else {
+							
+								// Hide checkout total
+								$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+							}
+							
 							// Check if payment method has a discount or surcharge
 							if(MwcPayWooCommerceExtension_checkout_script_parameters.has_discount_or_surcharge === true) {
 							
@@ -533,6 +556,42 @@
 							}
 						}
 					});
+					
+					// Updated checkout event
+					$(document.body).on("updated_checkout", () => {
+					
+						// Check if using this payment method
+						if(usingThisPaymentMethod === true) {
+						
+							// Show checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+						
+						// Otherwise
+						else {
+						
+							// Hide checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+					});
+					
+					// Check if payment method is available
+					if($("#payment_method_mwc_pay").length !== 0) {
+					
+						// Check if using this payment method
+						if(usingThisPaymentMethod === true) {
+						
+							// Show checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").removeClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+						
+						// Otherwise
+						else {
+						
+							// Hide checkout total
+							$("span#MwcPayWooCommerceExtension_checkout_total").addClass("MwcPayWooCommerceExtension_checkout_hide");
+						}
+					}
 					
 					// Check if payment method has a discount or surcharge
 					if(MwcPayWooCommerceExtension_checkout_script_parameters.has_discount_or_surcharge === true) {
@@ -543,7 +602,7 @@
 				}
 				
 				// Intercept checkout responses
-				#interceptCheckoutResponses() {
+				interceptCheckoutResponses() {
 				
 					// Set jQuery AJAX prefilter
 					$.ajaxPrefilter((options, originalOptions, jqXhr) => {
@@ -556,7 +615,7 @@
 							if(data.has("payment_method") === true && data.get("payment_method") === MwcPayWooCommerceExtension_base_script_parameters.gateway_id) {
 							
 								// Save request's success callback
-								this.#successCallback = options.success;
+								this.successCallback = options.success;
 								
 								// Change request's success callback
 								options.success = (result) => {
@@ -565,23 +624,23 @@
 									if(result.result !== "success" || "status_api" in result === false) {
 									
 										// Perform success callback
-										this.#successCallback(result);
+										this.successCallback(result);
 									}
 									
 									// Otherwise
 									else {
 									
 										// Set amount
-										this.#amount = result.amount;
+										this.amount = result.amount;
 										
 										// Set timeout
-										this.#timeout = parseInt(result.timeout, MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE);
+										this.timeout = parseInt(result.timeout, MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE);
 										
 										// Set cancel API
-										this.#cancelApi = result.cancel_api;
+										this.cancelApi = result.cancel_api;
 										
 										// Show payment info
-										this.#showPaymentInfo(result.url, result.amount, result.required_number_of_block_confirmations, result.recipient_payment_proof_address, result.price_in_currency, result.price_in_mimblewimble_coin, result.payment_method_title, result.status_api, result.redirect);
+										this.showPaymentInfo(result.url, result.amount, result.required_number_of_block_confirmations, result.recipient_payment_proof_address, result.price_in_currency, result.price_in_mimblewimble_coin, result.payment_method_title, result.status_api, result.redirect);
 									}
 								};
 							}
@@ -634,7 +693,7 @@
 										else {
 										
 											// Set success callback
-											this.#successCallback = (values) => {
+											this.successCallback = (values) => {
 											
 												// Check if value is success
 												if(values.result === "success") {
@@ -647,25 +706,25 @@
 												else {
 												
 													// Reject
-													reject(Response.json({
+													reject(new Response(JSON.stringify({
 														
 														// Message
 														message: $(values.messages).html()
-													}));
+													})));
 												}
 											};
 											
 											// Set amount
-											this.#amount = result.amount;
+											this.amount = result.amount;
 											
 											// Set timeout
-											this.#timeout = parseInt(result.timeout, MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE);
+											this.timeout = parseInt(result.timeout, MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE);
 											
 											// Set cancel API
-											this.#cancelApi = result.cancel_api;
+											this.cancelApi = result.cancel_api;
 											
 											// Show payment info
-											this.#showPaymentInfo(result.url, result.amount, result.required_number_of_block_confirmations, result.recipient_payment_proof_address, result.price_in_currency, result.price_in_mimblewimble_coin, result.payment_method_title, result.status_api, result.redirect);
+											this.showPaymentInfo(result.url, result.amount, result.required_number_of_block_confirmations, result.recipient_payment_proof_address, result.price_in_currency, result.price_in_mimblewimble_coin, result.payment_method_title, result.status_api, result.redirect);
 										}
 										
 									// Catch errors
@@ -694,19 +753,19 @@
 				}
 				
 				// Update price
-				#updatePrice(immediatley = false) {
+				updatePrice(immediatley = false) {
 				
 					// Clear update price timeout
-					clearTimeout(this.#updatePriceTimeout);
+					clearTimeout(this.updatePriceTimeout);
 					
 					// Set update price timeout
-					this.#updatePriceTimeout = setTimeout(async () => {
+					this.updatePriceTimeout = setTimeout(async () => {
 					
 						// Try
 						try {
 						
 							// Check if currency isn't this currency, this payment method is available, and modal isn't shown
-							if(wc.priceFormat.getCurrency().code !== MwcPayWooCommerceExtension_base_script_parameters.currency_id && $("#payment_method_mwc_pay, #radio-control-wc-payment-method-options-mwc_pay").length !== 0 && this.#modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === true) {
+							if(wc.priceFormat.getCurrency().code !== MwcPayWooCommerceExtension_base_script_parameters.currency_id && $("#payment_method_mwc_pay, #radio-control-wc-payment-method-options-mwc_pay").length !== 0 && this.modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === true) {
 							
 								// Get price
 								const price = await (await fetch(MwcPayWooCommerceExtension_checkout_script_parameters.get_price_api)).json();
@@ -746,47 +805,47 @@
 						finally {
 						
 							// Update price
-							this.#updatePrice();
+							this.updatePrice();
 						}
 						
-					}, (immediatley === true) ? 0 : MwcPayWooCommerceExtensionCheckout.#UPDATE_PRICE_INTERVAL_MILLISECONDS);
+					}, (immediatley === true) ? 0 : MwcPayWooCommerceExtensionCheckout.UPDATE_PRICE_INTERVAL_MILLISECONDS);
 				}
 				
 				// Show payment info
-				#showPaymentInfo(url, amount, requiredNumberOfBlockConfirmations, recipientPaymentProofAddress, priceInCurrency, priceInMimbleWimbleCoin, paymentMethodTitle, statusApi, redirect) {
+				showPaymentInfo(url, amount, requiredNumberOfBlockConfirmations, recipientPaymentProofAddress, priceInCurrency, priceInMimbleWimbleCoin, paymentMethodTitle, statusApi, redirect) {
 						
 					// Set modal's z-index
-					this.#modal.css("z-index", $.blockUI.defaults.baseZ);
+					this.modal.css("z-index", $.blockUI.defaults.baseZ);
 					
 					// Set modal's background color to the body's and return it
-					const backgroundColor = this.#modal.find("> div:nth-of-type(2)").first().css("background-color", $(document.body).css("background-color")).css("background-color");
+					const backgroundColor = this.modal.find("> div:last-of-type").first().css("background-color", $(document.body).css("background-color")).css("background-color");
 					
 					// Check if background color is dark
-					if(MwcPayWooCommerceExtensionCheckout.#colorIsDark(backgroundColor) === true) {
+					if(MwcPayWooCommerceExtensionCheckout.colorIsDark(backgroundColor) === true) {
 					
 						// Invert modal's colors
-						this.#modal.addClass("MwcPayWooCommerceExtension_checkout_invert");
+						this.modal.addClass("MwcPayWooCommerceExtension_checkout_invert");
 					}
 					
 					// Otherwise
 					else {
 					
 						// Don't invert modal's colors
-						this.#modal.removeClass("MwcPayWooCommerceExtension_checkout_invert");
+						this.modal.removeClass("MwcPayWooCommerceExtension_checkout_invert");
 					}
 					
 					// Clear modal's instructions
-					this.#modal.find("> div > p:first-of-type").empty();
+					this.modal.find("> div > p:first-of-type").empty();
 					
 					// Set modal's title
-					this.#modal.find("h2").text(paymentMethodTitle);
+					this.modal.find("h2").text(paymentMethodTitle);
 					
 					// Try
 					try {
 					
 						// Initialize QR code
 						qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
-						const qrCode = qrcode(0, MwcPayWooCommerceExtensionCheckout.#QR_CODE_ERROR_CORRECTION_LEVEL);
+						const qrCode = qrcode(0, MwcPayWooCommerceExtensionCheckout.QR_CODE_ERROR_CORRECTION_LEVEL);
 						
 						// Add recipient address and amount to QR code
 						qrCode.addData(JSON.stringify({
@@ -802,53 +861,56 @@
 						// Create QR code
 						qrCode.make();
 						
-						// Set modal's QR code and show it
-						this.#modal.find("img").removeClass("MwcPayWooCommerceExtension_checkout_hide").replaceWith(qrCode.createImgTag());
+						// Set modal's QR code
+						this.modal.find("img").replaceWith(qrCode.createImgTag());
+						
+						// Show modal's QR code
+						this.modal.addClass("MwcPayWooCommerceExtension_checkout_qrcode");
 					}
 					
 					// Catch errors
 					catch(error) {
 					
 						// Hide modal's QR code
-						this.#modal.find("img").addClass("MwcPayWooCommerceExtension_checkout_hide");
+						this.modal.removeClass("MwcPayWooCommerceExtension_checkout_qrcode");
 					}
 					
 					// Set modal's payment proof
-					this.#modal.find("p:nth-of-type(2)").html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("The recipient payment proof address for this order is %s", "mwc-pay-woocommerce-extension")), "<span><bdi>" + wp.escapeHtml.escapeEditableHTML(recipientPaymentProofAddress) + "</bdi>.</span>"));
+					this.modal.find("p:last-of-type").html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("The recipient payment proof address for this order is %s", "mwc-pay-woocommerce-extension")), "<span><bdi>" + wp.escapeHtml.escapeEditableHTML(recipientPaymentProofAddress) + "</bdi>.</span>"));
 					
 					// Enable modal's cancel button
-					this.#cancelButton.prop("disabled", false);
+					this.cancelButton.prop("disabled", false);
 					
 					// Update modal's instructions
-					this.#updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin);
+					this.updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin);
 					
 					// Show modal
-					this.#modal.removeClass("MwcPayWooCommerceExtension_checkout_hide");
+					this.modal.removeClass("MwcPayWooCommerceExtension_checkout_hide");
 					
 					// Update status
-					this.#updateStatus(statusApi, redirect);
+					this.updateStatus(statusApi, redirect);
 				}
 				
 				// Hide payment info
-				#hidePaymentInfo(message = null) {
+				hidePaymentInfo(message = null) {
 				
 					// Disable modal's cancel button
-					this.#cancelButton.prop("disabled", true);
+					this.cancelButton.prop("disabled", true);
 				
 					// Trigger cancelled event
-					this.#modal.trigger(MwcPayWooCommerceExtensionCheckout.#CANCELLED_EVENT);
+					this.modal.trigger(MwcPayWooCommerceExtensionCheckout.CANCELLED_EVENT);
 					
 					// Clear update status timeout
-					clearTimeout(this.#updateStatusTimeout);
+					clearTimeout(this.updateStatusTimeout);
 					
 					// Clear update instructions timeout
-					clearTimeout(this.#updateInstructionsTimeout);
+					clearTimeout(this.updateInstructionsTimeout);
 					
 					// Check if message exists
 					if(message !== null) {
 					
 						// Perform success callback
-						this.#successCallback({
+						this.successCallback({
 						
 							// Result
 							result: "failure",
@@ -865,58 +927,58 @@
 					}
 					
 					// Hide modal
-					this.#modal.addClass("MwcPayWooCommerceExtension_checkout_hide");
+					this.modal.addClass("MwcPayWooCommerceExtension_checkout_hide");
 					
 					// Check if message exists
 					if(message !== null) {
 					
 						// Update price immediatley
-						this.#updatePrice(true);
+						this.updatePrice(true);
 					}
 				}
 				
 				// Update instructions
-				#updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin) {
+				updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin) {
 				
 					// Get modal's instructions
-					const instructions = this.#modal.find("> div > p:first-of-type");
+					const instructions = this.modal.find("> div > p:first-of-type");
 					
 					// Check if modal's instructions are empty or will change other than the timeout
-					if(instructions.is(":empty") === true || wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.#timeout, "mwc-pay-woocommerce-extension") !== wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.#timeout + 1, "mwc-pay-woocommerce-extension")) {
+					if(instructions.is(":empty") === true || wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.timeout, "mwc-pay-woocommerce-extension") !== wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.timeout + 1, "mwc-pay-woocommerce-extension")) {
 					
 						// Update modal's instructions
-						instructions.html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.#timeout, "mwc-pay-woocommerce-extension")), priceInMimbleWimbleCoin, (wc.priceFormat.getCurrency().code !== MwcPayWooCommerceExtension_base_script_parameters.currency_id) ? " <bdi class=\"MwcPayWooCommerceExtension_checkout_ignore\">(≈&zwj;" + priceInCurrency + ")</bdi>" : "", "<bdi><a href=\"" + wp.escapeHtml.escapeQuotationMark(url) + "\" aria-label=\"" + wp.escapeHtml.escapeQuotationMark(wp.i18n.__("Open payment URL", "mwc-pay-woocommerce-extension")) + "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">" + wp.escapeHtml.escapeEditableHTML(url) + "</a></bdi>", "<bdi class=\"MwcPayWooCommerceExtension_checkout_timeout\">" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.#addThousandSeparator(this.#timeout.toFixed())) + "</bdi>") + " " + wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n._n("This order will start processing once its payment achieves %1$s block confirmation %2$s minute%3$s.", "This order will start processing once its payment achieves %1$s block confirmations %2$s minutes%3$s.", parseInt(requiredNumberOfBlockConfirmations, MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE), "mwc-pay-woocommerce-extension")), "<bdi>" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.#addThousandSeparator(requiredNumberOfBlockConfirmations)) + "</bdi>", "<bdi>(≈&zwj;" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.#addThousandSeparator(requiredNumberOfBlockConfirmations)) + "</bdi>", "<bdi>)</bdi>"));
+						instructions.html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n._n("Send %1$s%2$s to %3$s in the next %4$s second to complete your order.", "Send %1$s%2$s to %3$s in the next %4$s seconds to complete your order.", this.timeout, "mwc-pay-woocommerce-extension")), priceInMimbleWimbleCoin, (wc.priceFormat.getCurrency().code !== MwcPayWooCommerceExtension_base_script_parameters.currency_id) ? " <bdi class=\"MwcPayWooCommerceExtension_checkout_ignore\">(≈&zwj;" + priceInCurrency + ")</bdi>" : "", "<bdi><a href=\"" + wp.escapeHtml.escapeQuotationMark(url) + "\" aria-label=\"" + wp.escapeHtml.escapeQuotationMark(wp.i18n.__("Open payment URL", "mwc-pay-woocommerce-extension")) + "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">" + wp.escapeHtml.escapeEditableHTML(url) + "</a></bdi>", "<bdi class=\"MwcPayWooCommerceExtension_checkout_timeout\">" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.addThousandSeparator(this.timeout.toFixed())) + "</bdi>") + " " + wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n._n("This order will start processing once its payment achieves %1$s block confirmation %2$s minute%3$s.", "This order will start processing once its payment achieves %1$s block confirmations %2$s minutes%3$s.", parseInt(requiredNumberOfBlockConfirmations, MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE), "mwc-pay-woocommerce-extension")), "<bdi>" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.addThousandSeparator(requiredNumberOfBlockConfirmations)) + "</bdi>", "<bdi>(≈&zwj;" + wp.escapeHtml.escapeEditableHTML(MwcPayWooCommerceExtensionCheckout.addThousandSeparator(requiredNumberOfBlockConfirmations)) + "</bdi>", "<bdi>)</bdi>"));
 					}
 					
 					// Otherwise
 					else {
 					
 						// Update modal's instructions's timeout
-						instructions.find("> bdi.MwcPayWooCommerceExtension_checkout_timeout").text(MwcPayWooCommerceExtensionCheckout.#addThousandSeparator(this.#timeout.toFixed()));
+						instructions.find("> bdi.MwcPayWooCommerceExtension_checkout_timeout").text(MwcPayWooCommerceExtensionCheckout.addThousandSeparator(this.timeout.toFixed()));
 					}
 					
 					// Check if timeout isn't done
-					if(this.#timeout > 1) {
+					if(this.timeout > 1) {
 					
 						// Set update instructions timeout
-						this.#updateInstructionsTimeout = setTimeout(() => {
+						this.updateInstructionsTimeout = setTimeout(() => {
 						
 							// Decrement timeout
-							--this.#timeout;
+							--this.timeout;
 						
 							// Update instructions
-							this.#updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin);
+							this.updateInstructions(url, requiredNumberOfBlockConfirmations, priceInCurrency, priceInMimbleWimbleCoin);
 						
-						}, 1 * MwcPayWooCommerceExtensionCheckout.#MILLISECONDS_IN_A_SECOND);
+						}, 1 * MwcPayWooCommerceExtensionCheckout.MILLISECONDS_IN_A_SECOND);
 					}
 				}
 				
 				// Update status
-				async #updateStatus(statusApi, redirect) {
+				async updateStatus(statusApi, redirect) {
 				
 					// Cancelled event
 					let ignoreResult = false;
-					this.#modal.one(MwcPayWooCommerceExtensionCheckout.#CANCELLED_EVENT, () => {
+					this.modal.one(MwcPayWooCommerceExtensionCheckout.CANCELLED_EVENT, () => {
 					
 						// Set ignore result to true
 						ignoreResult = true;
@@ -939,13 +1001,13 @@
 								tryAgain = false;
 								
 								// Disable modal's cancel button
-								this.#cancelButton.prop("disabled", true);
+								this.cancelButton.prop("disabled", true);
 								
 								// Set bypass unload interrupt to true
-								this.#bypassUnloadInterrupt = true;
+								this.bypassUnloadInterrupt = true;
 							
 								// Perform success callback
-								this.#successCallback({
+								this.successCallback({
 								
 									// Result
 									result: "success",
@@ -962,7 +1024,7 @@
 								tryAgain = false;
 								
 								// Hide payment info
-								this.#hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order expired.", "mwc-pay-woocommerce-extension")));
+								this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order expired.", "mwc-pay-woocommerce-extension")));
 							}
 							
 							// Otherwise check if status is cancelled
@@ -972,7 +1034,7 @@
 								tryAgain = false;
 								
 								// Hide payment info
-								this.#hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
+								this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
 							}
 						}
 					}
@@ -989,104 +1051,104 @@
 						if(ignoreResult === false) {
 						
 							// Turn off cancelled event
-							this.#modal.off(MwcPayWooCommerceExtensionCheckout.#CANCELLED_EVENT);
+							this.modal.off(MwcPayWooCommerceExtensionCheckout.CANCELLED_EVENT);
 							
 							// Check if trying again
 							if(tryAgain === true) {
 						
 								// Set update status timeout
-								this.#updateStatusTimeout = setTimeout(() => {
+								this.updateStatusTimeout = setTimeout(() => {
 								
 									// Update status
-									this.#updateStatus(statusApi, redirect);
+									this.updateStatus(statusApi, redirect);
 									
-								}, Math.min(MwcPayWooCommerceExtensionCheckout.#UPDATE_STATUS_INTERVAL_MILLISECONDS, this.#timeout * MwcPayWooCommerceExtensionCheckout.#MILLISECONDS_IN_A_SECOND));
+								}, Math.min(MwcPayWooCommerceExtensionCheckout.UPDATE_STATUS_INTERVAL_MILLISECONDS, this.timeout * MwcPayWooCommerceExtensionCheckout.MILLISECONDS_IN_A_SECOND));
 							}
 						}
 					}
 				}
 				
 				// Color is dark
-				static #colorIsDark(color) {
+				static colorIsDark(color) {
 				
 					// Get color's components
 					const components = color.match(/^rgba?\((\d+), *(\d+), *(\d+)/u);
-					const red = parseInt(components[1], MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE);
-					const green = parseInt(components[2], MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE);
-					const blue = parseInt(components[3], MwcPayWooCommerceExtensionCheckout.#DECIMAL_NUMBER_BASE);
+					const red = parseInt(components[1], MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE);
+					const green = parseInt(components[2], MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE);
+					const blue = parseInt(components[3], MwcPayWooCommerceExtensionCheckout.DECIMAL_NUMBER_BASE);
 					
 					// Get color's brightness
 					const brightness = Math.sqrt(0.299 * Math.pow(red, 2) + 0.587 * Math.pow(green, 2) + 0.114 * Math.pow(blue, 2));
 					
 					// Return if color is dark
-					return brightness <= MwcPayWooCommerceExtensionCheckout.#UINT8_MAX / 2;
+					return brightness <= MwcPayWooCommerceExtensionCheckout.UINT8_MAX / 2;
 				}
 				
 				// Add thousand separator 
-				static #addThousandSeparator(number) {
+				static addThousandSeparator(number) {
 				
 					// Return number with thousand separator
 					return number.replace(/\B(?=(\d{3})+(?!\d))/ug, wc.priceFormat.getCurrency().thousandSeparator);
 				}
 				
 				// QR code error correction level
-				static get #QR_CODE_ERROR_CORRECTION_LEVEL() {
+				static get QR_CODE_ERROR_CORRECTION_LEVEL() {
 				
 					// Return QR code error correction level
 					return "L";
 				}
 				
 				// Write to clipboard delay milliseconds
-				static get #WRITE_TO_CLIPBOARD_DELAY_MILLISECONDS() {
+				static get WRITE_TO_CLIPBOARD_DELAY_MILLISECONDS() {
 				
 					// Return write to clipboard delay milliseconds
 					return 200;
 				}
 				
 				// Cancelled event
-				static get #CANCELLED_EVENT() {
+				static get CANCELLED_EVENT() {
 				
 					// Return cancelled event
 					return "MwcPayWooCommerceExtension_checkout_cancelled_event";
 				}
 				
 				// Milliseconds in a second
-				static get #MILLISECONDS_IN_A_SECOND() {
+				static get MILLISECONDS_IN_A_SECOND() {
 				
 					// Return milliseconds in a second
 					return 1000;
 				}
 				
 				// Seconds in a minute
-				static get #SECONDS_IN_A_MINUTE() {
+				static get SECONDS_IN_A_MINUTE() {
 				
 					// Return seconds in a minute
 					return 60;
 				}
 				
 				// Update status interval milliseconds
-				static get #UPDATE_STATUS_INTERVAL_MILLISECONDS() {
+				static get UPDATE_STATUS_INTERVAL_MILLISECONDS() {
 				
 					// Return update status interval seconds
-					return 10 * MwcPayWooCommerceExtensionCheckout.#MILLISECONDS_IN_A_SECOND;
+					return 10 * MwcPayWooCommerceExtensionCheckout.MILLISECONDS_IN_A_SECOND;
 				}
 				
 				// Update price interval milliseconds
-				static get #UPDATE_PRICE_INTERVAL_MILLISECONDS() {
+				static get UPDATE_PRICE_INTERVAL_MILLISECONDS() {
 				
 					// Return update price interval milliseconds
-					return 10 * MwcPayWooCommerceExtensionCheckout.#SECONDS_IN_A_MINUTE * MwcPayWooCommerceExtensionCheckout.#MILLISECONDS_IN_A_SECOND;
+					return 10 * MwcPayWooCommerceExtensionCheckout.SECONDS_IN_A_MINUTE * MwcPayWooCommerceExtensionCheckout.MILLISECONDS_IN_A_SECOND;
 				}
 				
 				// Decimal number base
-				static get #DECIMAL_NUMBER_BASE() {
+				static get DECIMAL_NUMBER_BASE() {
 				
 					// Return decimal number base
 					return 10;
 				}
 				
 				// Uint8 max
-				static get #UINT8_MAX() {
+				static get UINT8_MAX() {
 				
 					// Return uint8 max
 					return 255;

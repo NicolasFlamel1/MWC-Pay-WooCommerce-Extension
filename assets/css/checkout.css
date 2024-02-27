@@ -40,7 +40,7 @@ div#MwcPayWooCommerceExtension_checkout_modal.MwcPayWooCommerceExtension_checkou
 	filter: invert(1);
 }
 
-div#MwcPayWooCommerceExtension_checkout_modal > div:nth-of-type(2) {
+div#MwcPayWooCommerceExtension_checkout_modal > div:last-of-type {
 	border-radius: var(--wp--preset--spacing--10, 0);
 	padding: min(2rem, 5vw) min(1rem, 2vw);
 	max-height: 100%;
@@ -75,7 +75,7 @@ div#MwcPayWooCommerceExtension_checkout_modal > div > p > bdi:not(.MwcPayWooComm
 	opacity: 0.5;
 }
 
-div#MwcPayWooCommerceExtension_checkout_modal > div > p > bdi:not(.MwcPayWooCommerceExtension_checkout_ignore) > a, div#MwcPayWooCommerceExtension_checkout_modal > div > p:nth-of-type(2) > span {
+div#MwcPayWooCommerceExtension_checkout_modal > div > p > bdi:not(.MwcPayWooCommerceExtension_checkout_ignore) > a, div#MwcPayWooCommerceExtension_checkout_modal > div > p:last-of-type > span {
 	word-break: break-all;
 }
 
@@ -87,15 +87,14 @@ div#MwcPayWooCommerceExtension_checkout_modal > div > img {
 	min-height: 10em;
 	object-fit: contain;
 	margin-block-start: 0;
-	margin-top: 0;
 	margin-block-end: 0;
-	margin-bottom: 0;
 	max-width: 18em;
 	display: flex;
+	margin: 0 auto;
 	mix-blend-mode: multiply;
 }
 
-div#MwcPayWooCommerceExtension_checkout_modal > div > img.MwcPayWooCommerceExtension_checkout_hide {
+div#MwcPayWooCommerceExtension_checkout_modal:not(.MwcPayWooCommerceExtension_checkout_qrcode) > div > img {
 	display: none;
 }
 
@@ -104,12 +103,12 @@ div#MwcPayWooCommerceExtension_checkout_modal.MwcPayWooCommerceExtension_checkou
 	mix-blend-mode: screen;
 }
 
-div#MwcPayWooCommerceExtension_checkout_modal > div > *:has(+ img:not(.MwcPayWooCommerceExtension_checkout_hide)) {
+div#MwcPayWooCommerceExtension_checkout_modal.MwcPayWooCommerceExtension_checkout_qrcode > div > p:first-of-type {
 	margin-block-end: 0;
 	margin-bottom: 0;
 }
 
-div#MwcPayWooCommerceExtension_checkout_modal > div > img:not(.MwcPayWooCommerceExtension_checkout_hide) + * {
+div#MwcPayWooCommerceExtension_checkout_modal.MwcPayWooCommerceExtension_checkout_qrcode > div > img + * {
 	margin-block-start: 0;
 	margin-top: 0;
 }
@@ -123,7 +122,7 @@ div#MwcPayWooCommerceExtension_checkout_modal > div > div:last-of-type {
 	height: min(0.7rem, 2.4vw);
 }
 
-span#MwcPayWooCommerceExtension_checkout_total {
+span#MwcPayWooCommerceExtension_checkout_total.MwcPayWooCommerceExtension_checkout_hide {
 	display: none;
 }
 

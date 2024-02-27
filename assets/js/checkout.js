@@ -818,7 +818,7 @@
 					this.modal.css("z-index", $.blockUI.defaults.baseZ);
 					
 					// Set modal's background color to the body's and return it
-					const backgroundColor = this.modal.find("> div:last-of-type").first().css("background-color", $(document.body).css("background-color")).css("background-color");
+					const backgroundColor = this.modal.find("> div:last-of-type").css("background-color", $(document.body).css("background-color")).css("background-color");
 					
 					// Check if background color is dark
 					if(MwcPayWooCommerceExtensionCheckout.colorIsDark(backgroundColor) === true) {

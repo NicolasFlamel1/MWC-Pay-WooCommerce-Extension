@@ -864,6 +864,9 @@
 						// Set modal's QR code
 						this.modal.find("img").replaceWith(qrCode.createImgTag());
 						
+						// Set modal's QR code alternative
+						this.modal.find("img").attr("alt", wp.i18n.__("Payment QR code", "mwc-pay-woocommerce-extension"));
+						
 						// Show modal's QR code
 						this.modal.addClass("MwcPayWooCommerceExtension_checkout_qrcode");
 					}

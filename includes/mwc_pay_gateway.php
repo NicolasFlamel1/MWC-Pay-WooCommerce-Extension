@@ -2222,7 +2222,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					else {
 					
 						// Check if getting body failed
-						$body = file_get_contents("php://input");
+						$body = @file_get_contents("php://input");
 						if($body === FALSE) {
 						
 							// Set no cache headers

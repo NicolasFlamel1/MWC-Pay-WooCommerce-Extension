@@ -159,11 +159,8 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		// Default completed payment maximum allowed time since being received
 		private const WC_Gateway_MWC_Pay_DEFAULT_COMPLETED_PAYMENT_MAXIMUM_ALLOWED_TIME_SINCE_BEING_RECEIVED = 2 * self::WC_Gateway_MWC_Pay_HOURS_IN_A_DAY * self::WC_Gateway_MWC_Pay_MINUTES_IN_AN_HOUR * self::WC_Gateway_MWC_Pay_SECONDS_IN_A_MINUTE;
 		
-		// Icon type
-		public string $WC_Gateway_MWC_Pay_iconType;
-		
 		// Display format
-		public string $WC_Gateway_MWC_Pay_displayFormat;
+		public readonly string $WC_Gateway_MWC_Pay_displayFormat;
 		
 		// Private server URL
 		private string $WC_Gateway_MWC_Pay_privateServerUrl;

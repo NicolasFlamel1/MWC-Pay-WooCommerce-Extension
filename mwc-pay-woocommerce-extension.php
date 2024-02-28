@@ -5,7 +5,7 @@
  * Description: MWC Pay extension for WooCommerce that allows WordPress sites to accept MimbleWimble Coin payments.
  * Version: 0.1.1
  * Requires at least: 6.4
- * Requires PHP: 8.0
+ * Requires PHP: 8.1
  * WC requires at least: 8.6
  * Author: Nicolas Flamel
  * License: MIT
@@ -177,7 +177,7 @@ if(class_exists("MwcPayWooCommerceExtension") === FALSE) {
 					foreach($this->columnsToIncreaseDecimals[$name] as $column) {
 					
 						// Create search
-						$search = '/(?<=^\t' . preg_quote($column, "/") . ' DECIMAL\()(\d+),(\d+)(?=\) NULL,$)/uism';
+						$search = '/(?<=^\t' . preg_quote($column, "/") . ' DECIMAL\()(\d+),(\d+)(?=\) NULL,$)/uim';
 						
 						// Check if query doesn't contain the column
 						if(preg_match($search, $query) !== 1) {

@@ -1087,7 +1087,7 @@
 					return brightness <= MwcPayWooCommerceExtensionCheckout.UINT8_MAX / 2;
 				}
 				
-				// Add thousand separator 
+				// Add thousand separator
 				static addThousandSeparator(number) {
 				
 					// Return number with thousand separator

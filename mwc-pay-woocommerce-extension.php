@@ -313,7 +313,7 @@ if(class_exists("MwcPayWooCommerceExtension") === FALSE) {
 					}
 					
 					// Catch errors
-					catch(\Exception $error) {
+					catch(Exception $error) {
 					
 						// Return
 						return;

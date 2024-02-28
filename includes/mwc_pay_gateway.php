@@ -833,7 +833,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					}
 					
 					// Catch errors
-					catch(\Exception $error) {
+					catch(Exception $error) {
 					
 					}
 					
@@ -871,7 +871,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(\Exception $error) {
+						catch(Exception $error) {
 						
 						}
 						
@@ -929,7 +929,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(\Exception $error) {
+						catch(Exception $error) {
 						
 						}
 						
@@ -1035,7 +1035,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(\Exception $error) {
+						catch(Exception $error) {
 						
 							// Set that order failed
 							$order->update_status("failed", esc_html__("Calculating this order's price, required number of block confirmations, and/or timeout failed.", "mwc-pay-woocommerce-extension"));
@@ -1052,7 +1052,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(\Exception $error) {
+						catch(Exception $error) {
 						
 							// Set that order failed
 							$order->update_status("failed", esc_html__("Generating a random secret for this order failed.", "mwc-pay-woocommerce-extension"));
@@ -1174,7 +1174,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 							}
 							
 							// Catch errors
-							catch(\Exception $error) {
+							catch(Exception $error) {
 							
 								// Set that order failed
 								$order->update_status("failed", esc_html__("Saving this order failed.", "mwc-pay-woocommerce-extension"));
@@ -1458,7 +1458,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 				}
 				
 				// Catch errors
-				catch(\Exception $error) {
+				catch(Exception $error) {
 				
 				}
 			}
@@ -1749,7 +1749,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 									}
 									
 									// Catch errors
-									catch(\Exception $error) {
+									catch(Exception $error) {
 									
 										// Return internal server error response
 										status_header(500);
@@ -1798,7 +1798,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 											}
 											
 											// Catch errors
-											catch(\Exception $error) {
+											catch(Exception $error) {
 											
 												// Return internal server error response
 												status_header(500);
@@ -1853,7 +1853,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(\Exception $error) {
+										catch(Exception $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -1881,7 +1881,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 											}
 											
 											// Catch errors
-											catch(\Exception $error) {
+											catch(Exception $error) {
 											
 											}
 										}
@@ -1901,7 +1901,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(\Exception $error) {
+										catch(Exception $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -1963,7 +1963,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(\Exception $error) {
+										catch(Exception $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -2023,7 +2023,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 												}
 												
 												// Catch errors
-												catch(\Exception $error) {
+												catch(Exception $error) {
 												
 													// Return internal server error response
 													status_header(500);

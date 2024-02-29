@@ -365,7 +365,7 @@ if(class_exists("MwcPayWooCommerceExtension") === FALSE) {
 		}
 		
 		// Get currency exchange rate
-		public static function getCurrencyExchangeRate(string $currency): string | NULL {
+		public static function getCurrencyExchangeRate(string $currency): ?string {
 		
 			// Use WordPress database
 			global $wpdb;

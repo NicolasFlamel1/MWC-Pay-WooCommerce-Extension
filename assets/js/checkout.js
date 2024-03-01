@@ -879,7 +879,7 @@
 					}
 					
 					// Set modal's payment proof
-					this.modal.find("p:last-of-type").html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("The recipient payment proof address for this order is %s", "mwc-pay-woocommerce-extension")), "<span><bdi>" + wp.escapeHtml.escapeEditableHTML(recipientPaymentProofAddress) + "</bdi>.</span>"));
+					this.modal.find("p:last-of-type").html(wp.i18n.sprintf(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("The transaction's recipient payment proof address for this order is %s", "mwc-pay-woocommerce-extension")), "<span><bdi>" + wp.escapeHtml.escapeEditableHTML(recipientPaymentProofAddress) + "</bdi>.</span>"));
 					
 					// Enable modal's cancel button
 					this.cancelButton.prop("disabled", false);

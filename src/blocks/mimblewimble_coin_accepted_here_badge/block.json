@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "mwc-pay-woocommerce-extension/mimblewimble-coin-accepted-here-badge",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"title": "MimbleWimble Coin Accepted Here Badge",
 	"category": "mwc-pay-woocommerce-extension",
 	"description": "Displays a MimbleWimble Coin accepted here badge.",

@@ -23,7 +23,7 @@ The following code briefly shows how to use this SDK. A more complete example wi
 <?php
 
 // Require dependencies
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . "/vendor/autoload.php";
 
 // Use MWC Pay
 use Nicolasflamel\MwcPay\MwcPay;

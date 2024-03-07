@@ -65,23 +65,23 @@
         },
         {
             "name": "nicolasflamel/mwc-pay",
-            "version": "v0.3.1",
-            "version_normalized": "0.3.1.0",
+            "version": "v0.3.2",
+            "version_normalized": "0.3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK.git",
-                "reference": "e5af5796776f513e3a7526cf956725b88545ddcb"
+                "reference": "623f9a49967f0f371e5dcbe30af1f24a17219746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NicolasFlamel1/MWC-Pay-PHP-SDK/zipball/e5af5796776f513e3a7526cf956725b88545ddcb",
-                "reference": "e5af5796776f513e3a7526cf956725b88545ddcb",
+                "url": "https://api.github.com/repos/NicolasFlamel1/MWC-Pay-PHP-SDK/zipball/623f9a49967f0f371e5dcbe30af1f24a17219746",
+                "reference": "623f9a49967f0f371e5dcbe30af1f24a17219746",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.0.0"
             },
-            "time": "2024-02-15T09:15:25+00:00",
+            "time": "2024-03-07T22:06:59+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -110,7 +110,7 @@
             ],
             "support": {
                 "issues": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/issues",
-                "source": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/tree/v0.3.1"
+                "source": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/tree/v0.3.2"
             },
             "install-path": "../nicolasflamel/mwc-pay"
         }

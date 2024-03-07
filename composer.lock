@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a3ff9eedc6d63ac7136b88d04c673d1",
+    "content-hash": "ea67c797e9d75a806c2fdbc7205a512b",
     "packages": [
         {
             "name": "brick/math",
@@ -68,16 +68,16 @@
         },
         {
             "name": "nicolasflamel/mwc-pay",
-            "version": "v0.3.1",
+            "version": "v0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK.git",
-                "reference": "e5af5796776f513e3a7526cf956725b88545ddcb"
+                "reference": "623f9a49967f0f371e5dcbe30af1f24a17219746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NicolasFlamel1/MWC-Pay-PHP-SDK/zipball/e5af5796776f513e3a7526cf956725b88545ddcb",
-                "reference": "e5af5796776f513e3a7526cf956725b88545ddcb",
+                "url": "https://api.github.com/repos/NicolasFlamel1/MWC-Pay-PHP-SDK/zipball/623f9a49967f0f371e5dcbe30af1f24a17219746",
+                "reference": "623f9a49967f0f371e5dcbe30af1f24a17219746",
                 "shasum": ""
             },
             "require": {
@@ -110,9 +110,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/issues",
-                "source": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/tree/v0.3.1"
+                "source": "https://github.com/NicolasFlamel1/MWC-Pay-PHP-SDK/tree/v0.3.2"
             },
-            "time": "2024-02-15T09:15:25+00:00"
+            "time": "2024-03-07T22:06:59+00:00"
         }
     ],
     "packages-dev": [],

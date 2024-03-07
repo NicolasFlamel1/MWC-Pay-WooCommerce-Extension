@@ -76,7 +76,7 @@ class MwcPay {
 		}
 		
 		// Catch errors
-		catch(\Exception $error) {
+		catch(\Throwable $error) {
 		
 			// Return false
 			return FALSE;
@@ -138,7 +138,7 @@ class MwcPay {
 		}
 		
 		// Catch errors
-		catch(\Exception $error) {
+		catch(\Throwable $error) {
 		
 			// Return false
 			return FALSE;
@@ -211,7 +211,7 @@ class MwcPay {
 		}
 		
 		// Catch errors
-		catch(\Exception $error) {
+		catch(\Throwable $error) {
 		
 			// Return false
 			return FALSE;
@@ -259,7 +259,7 @@ class MwcPay {
 		}
 		
 		// Catch errors
-		catch(\Exception $error) {
+		catch(\Throwable $error) {
 		
 			// Return false
 			return FALSE;

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '917696a072a433fcfbffee824953a09ac2e5ca3d',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '917696a072a433fcfbffee824953a09ac2e5ca3d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'nicolasflamel/mwc-pay' => array(
-            'pretty_version' => 'v0.3.1',
-            'version' => '0.3.1.0',
-            'reference' => 'e5af5796776f513e3a7526cf956725b88545ddcb',
+            'pretty_version' => 'v0.3.2',
+            'version' => '0.3.2.0',
+            'reference' => '623f9a49967f0f371e5dcbe30af1f24a17219746',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nicolasflamel/mwc-pay',
             'aliases' => array(),

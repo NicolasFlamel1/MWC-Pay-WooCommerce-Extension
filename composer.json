@@ -1,6 +1,6 @@
 {
     "require": {
-        "nicolasflamel/mwc-pay": "^0.3.1",
+        "nicolasflamel/mwc-pay": "^0.3.2",
         "brick/math": "^0.12.1"
     }
 }

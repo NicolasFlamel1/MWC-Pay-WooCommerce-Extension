@@ -3,7 +3,7 @@
  * Plugin Name: MWC Pay WooCommerce Extension
  * Plugin URI: https://github.com/NicolasFlamel1/MWC-Pay-WooCommerce-Extension
  * Description: MWC Pay extension for WooCommerce that allows WordPress sites to accept MimbleWimble Coin payments.
- * Version: 0.1.3
+ * Version: 0.1.4
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * WC requires at least: 8.6
@@ -313,7 +313,7 @@ if(class_exists("MwcPayWooCommerceExtension") === FALSE) {
 					}
 					
 					// Catch errors
-					catch(Exception $error) {
+					catch(Throwable $error) {
 					
 						// Return
 						return;

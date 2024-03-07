@@ -130,7 +130,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		private const WC_Gateway_MWC_Pay_PAYMENT_REQUEST_TIMEOUT_SECONDS = 1 * self::WC_Gateway_MWC_Pay_SECONDS_IN_A_MINUTE;
 		
 		// Uint32 max
-		private const WC_Gateway_MWC_Pay_UINT32_MAX = 0xFFFFFFFF;
+		private const WC_Gateway_MWC_Pay_UINT32_MAX = "4294967295";
 		
 		// Default icon type
 		private const WC_Gateway_MWC_Pay_DEFAULT_ICON_TYPE = "light";
@@ -337,7 +337,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
 				],
 				
 				// Payment required number of block confirmations per USD value
@@ -360,7 +360,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
 				],
 				
 				// Payment maximum required number of block confirmations
@@ -372,7 +372,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
 				],
 				
 				// Completed payment maximum allowed time since being received
@@ -833,7 +833,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					}
 					
 					// Catch errors
-					catch(Exception $error) {
+					catch(Throwable $error) {
 					
 					}
 					
@@ -871,7 +871,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(Exception $error) {
+						catch(Throwable $error) {
 						
 						}
 						
@@ -929,7 +929,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(Exception $error) {
+						catch(Throwable $error) {
 						
 						}
 						
@@ -1035,7 +1035,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(Exception $error) {
+						catch(Throwable $error) {
 						
 							// Set that order failed
 							$order->update_status("failed", esc_html__("Calculating this order's price, required number of block confirmations, and/or timeout failed.", "mwc-pay-woocommerce-extension"));
@@ -1052,7 +1052,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 						}
 						
 						// Catch errors
-						catch(Exception $error) {
+						catch(Throwable $error) {
 						
 							// Set that order failed
 							$order->update_status("failed", esc_html__("Generating a random secret for this order failed.", "mwc-pay-woocommerce-extension"));
@@ -1174,7 +1174,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 							}
 							
 							// Catch errors
-							catch(Exception $error) {
+							catch(Throwable $error) {
 							
 								// Set that order failed
 								$order->update_status("failed", esc_html__("Saving this order failed.", "mwc-pay-woocommerce-extension"));
@@ -1458,7 +1458,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 				}
 				
 				// Catch errors
-				catch(Exception $error) {
+				catch(Throwable $error) {
 				
 				}
 			}
@@ -1749,7 +1749,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 									}
 									
 									// Catch errors
-									catch(Exception $error) {
+									catch(Throwable $error) {
 									
 										// Return internal server error response
 										status_header(500);
@@ -1798,7 +1798,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 											}
 											
 											// Catch errors
-											catch(Exception $error) {
+											catch(Throwable $error) {
 											
 												// Return internal server error response
 												status_header(500);
@@ -1853,7 +1853,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(Exception $error) {
+										catch(Throwable $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -1881,7 +1881,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 											}
 											
 											// Catch errors
-											catch(Exception $error) {
+											catch(Throwable $error) {
 											
 											}
 										}
@@ -1901,7 +1901,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(Exception $error) {
+										catch(Throwable $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -1963,7 +1963,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 										}
 										
 										// Catch errors
-										catch(Exception $error) {
+										catch(Throwable $error) {
 										
 											// Return internal server error response
 											status_header(500);
@@ -2023,7 +2023,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 												}
 												
 												// Catch errors
-												catch(Exception $error) {
+												catch(Throwable $error) {
 												
 													// Return internal server error response
 													status_header(500);

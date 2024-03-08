@@ -130,7 +130,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		private const WC_Gateway_MWC_Pay_PAYMENT_REQUEST_TIMEOUT_SECONDS = 1 * self::WC_Gateway_MWC_Pay_SECONDS_IN_A_MINUTE;
 		
 		// Uint32 max
-		private const WC_Gateway_MWC_Pay_UINT32_MAX = "4294967295";
+		private const WC_Gateway_MWC_Pay_INT32_MAX = 2147483647;
 		
 		// Default icon type
 		private const WC_Gateway_MWC_Pay_DEFAULT_ICON_TYPE = "light";
@@ -337,7 +337,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_INT32_MAX
 				],
 				
 				// Payment required number of block confirmations per USD value
@@ -360,7 +360,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_INT32_MAX
 				],
 				
 				// Payment maximum required number of block confirmations
@@ -372,7 +372,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"desc_tip" => TRUE,
 					"{$this->id}_value_type" => "numeric",
 					"{$this->id}_value_minimum" => (string)1,
-					"{$this->id}_value_maximum" => self::WC_Gateway_MWC_Pay_UINT32_MAX
+					"{$this->id}_value_maximum" => (string)self::WC_Gateway_MWC_Pay_INT32_MAX
 				],
 				
 				// Completed payment maximum allowed time since being received
@@ -591,7 +591,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			}
 			
 			// Otherwise check if value is invalid
-			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_UINT32_MAX) === TRUE) {
+			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_INT32_MAX) === TRUE) {
 			
 				// Display error
 				WC_Admin_Settings::add_error(esc_html__("Order timeout is invalid.", "mwc-pay-woocommerce-extension"));
@@ -670,7 +670,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			}
 			
 			// Otherwise check if value is invalid
-			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_UINT32_MAX) === TRUE) {
+			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_INT32_MAX) === TRUE) {
 			
 				// Display error
 				WC_Admin_Settings::add_error(esc_html__("Payment minimum required number of block confirmations is invalid.", "mwc-pay-woocommerce-extension"));
@@ -718,7 +718,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			}
 			
 			// Otherwise check if value is invalid
-			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_UINT32_MAX) === TRUE) {
+			else if(preg_match('/^[1-9]\d*$/u', $value) !== 1 || Brick\Math\BigInteger::of($value)->isGreaterThan(self::WC_Gateway_MWC_Pay_INT32_MAX) === TRUE) {
 				
 				// Check if payment maximum required number of block confirmations setting is less than the payment minimum required number of block confirmations setting
 				if(Brick\Math\BigInteger::of($this->get_option("WC_Gateway_MWC_Pay_payment_maximum_required_number_of_block_confirmations"))->isLessThan($this->get_option("WC_Gateway_MWC_Pay_payment_minimum_required_number_of_block_confirmations")) === TRUE) {
@@ -1923,7 +1923,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 							case "confirmed":
 							
 								// Check if parameters are invalid
-								if(array_key_exists("{$this->id}_secret", $_GET) === FALSE || is_string($_GET["{$this->id}_secret"]) === FALSE || array_key_exists("{$this->id}_current_number_of_block_confirmations", $_GET) === FALSE || is_string($_GET["{$this->id}_current_number_of_block_confirmations"]) === FALSE || preg_match('/^(?:0|[1-9]\d*)$/u', $_GET["{$this->id}_current_number_of_block_confirmations"]) !== 1 || Brick\Math\BigInteger::of($_GET["{$this->id}_current_number_of_block_confirmations"])->isGreaterThan(self::WC_Gateway_MWC_Pay_UINT32_MAX) === TRUE) {
+								if(array_key_exists("{$this->id}_secret", $_GET) === FALSE || is_string($_GET["{$this->id}_secret"]) === FALSE || array_key_exists("{$this->id}_current_number_of_block_confirmations", $_GET) === FALSE || is_string($_GET["{$this->id}_current_number_of_block_confirmations"]) === FALSE || preg_match('/^(?:0|[1-9]\d*)$/u', $_GET["{$this->id}_current_number_of_block_confirmations"]) !== 1 || Brick\Math\BigInteger::of($_GET["{$this->id}_current_number_of_block_confirmations"])->isGreaterThan(self::WC_Gateway_MWC_Pay_INT32_MAX) === TRUE) {
 								
 									// Return bad request response
 									status_header(400);

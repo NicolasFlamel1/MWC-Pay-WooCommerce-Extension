@@ -24,7 +24,7 @@
 			
 		})), wp.element.createElement("div", {
 		
-			// Classname
+			// Class name
 			className: wp.blockEditor.useBlockProps().className,
 			
 			// Style
@@ -39,7 +39,7 @@
 				src: MwcPayWooCommerceExtension_blocks_script_parameters.blocks_path + "mimblewimble_coin_accepted_here_badge/mimblewimble_coin_logo.svg",
 				
 				// Alternative
-				alt: wp.i18n.__("MimbleWimble Coin accepted here", "mwc-pay-woocommerce-extension")
+				alt: wp.i18n.__("MimbleWimble Coin logo", "mwc-pay-woocommerce-extension")
 			}),
 			
 			// Text

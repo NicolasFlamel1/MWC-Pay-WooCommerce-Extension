@@ -3083,7 +3083,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					}
 					
 					// Display order's payment ID
-					echo "<strong>" . esc_html__("MWC Pay payment ID:", "mwc-pay-woocommerce-extension") . "</strong> <bdi style=\"word-break: break-all;\">" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_payment_id")) . "</bdi><br>";
+					echo "<strong>" . esc_html__("MWC Pay payment ID:", "mwc-pay-woocommerce-extension") . "</strong> <bdi style=\"word-break: break-all; font-variant-ligatures: none;\">" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_payment_id")) . "</bdi><br>";
 				}
 				
 				// Check if order has a kernel commitment
@@ -3100,7 +3100,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					}
 					
 					// Display order's kernel commitment
-					echo "<strong>" . esc_html__("Kernel excess:", "mwc-pay-woocommerce-extension") . "</strong> <bdi style=\"word-break: break-all;\"><a href=\"" . esc_url(self::WC_Gateway_MWC_Pay_MIMBLEWIMBLE_COIN_BLOCK_EXPLORER_URL . $order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_kernel_commitment")) . "\" aria-label=\"" . esc_attr__("View order's payment in a block explorer", "mwc-pay-woocommerce-extension") . "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_kernel_commitment")) . "</a></bdi><br>";
+					echo "<strong>" . esc_html__("Kernel excess:", "mwc-pay-woocommerce-extension") . "</strong> <bdi style=\"word-break: break-all; font-variant-ligatures: none;\"><a href=\"" . esc_url(self::WC_Gateway_MWC_Pay_MIMBLEWIMBLE_COIN_BLOCK_EXPLORER_URL . $order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_kernel_commitment")) . "\" aria-label=\"" . esc_attr__("View order's payment in a block explorer", "mwc-pay-woocommerce-extension") . "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_kernel_commitment")) . "</a></bdi><br>";
 				}
 				
 				// Check if info was displayed

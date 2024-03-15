@@ -2942,7 +2942,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 				if($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_recipient_payment_proof_address") !== "") {
 				
 					// Display recipient payment proof address message
-					echo "<p>" . sprintf(esc_html__("The transaction's recipient payment proof address for this order is %s.", "mwc-pay-woocommerce-extension"), "<bdi style=\"word-break: break-all;\"><strong>" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_recipient_payment_proof_address")) . "</strong></bdi>") . "</p>";
+					echo "<p>" . sprintf(esc_html__("The transaction's recipient payment proof address for this order is %s.", "mwc-pay-woocommerce-extension"), "<bdi style=\"word-break: break-all; font-variant-ligatures: none;\"><strong>" . esc_html($order->get_meta("_" . self::WC_Gateway_MWC_Pay_ID . "_recipient_payment_proof_address")) . "</strong></bdi>") . "</p>";
 				}
 			}
 		}

@@ -77,6 +77,7 @@ div#MwcPayWooCommerceExtension_checkout_modal > div > p > bdi:not(.MwcPayWooComm
 
 div#MwcPayWooCommerceExtension_checkout_modal > div > p > bdi:not(.MwcPayWooCommerceExtension_checkout_ignore) > a, div#MwcPayWooCommerceExtension_checkout_modal > div > p:last-of-type > span {
 	word-break: break-all;
+	font-variant-ligatures: none;
 }
 
 div#MwcPayWooCommerceExtension_checkout_modal > div > img {

@@ -11,7 +11,7 @@ namespace Nicolasflamel\MwcPay;
 // Classes
 
 // MWC Pay class
-class MwcPay {
+final class MwcPay {
 
 	// Constructor
 	public function __construct(private string $privateServer = "http://localhost:9010") {
@@ -19,7 +19,7 @@ class MwcPay {
 	}
 	
 	// Create payment
-	public function createPayment(?string $price, ?int $requiredConfirmations, ?int $timeout, string $completedCallback, ?string $receivedCallback = NULL, ?string $confirmedCallback = NULL, ?string $expiredCallback = NULL): array | FALSE | NULL {
+	public function createPayment(?string $price, ?int $requiredConfirmations, ?int $timeout, string $completedCallback, ?string $receivedCallback = NULL, ?string $confirmedCallback = NULL, ?string $expiredCallback = NULL, ?string $notes = NULL, ?string $apiKey = NULL): array | FALSE | NULL {
 	
 		// Check if sending creating payment request to the private server failed
 		$createPaymentResponse = @file_get_contents($this->privateServer . "/create_payment?" . http_build_query(array_filter([
@@ -43,7 +43,13 @@ class MwcPay {
 			"confirmed_callback" => $confirmedCallback,
 			
 			// Expired callback
-			"expired_callback" => $expiredCallback
+			"expired_callback" => $expiredCallback,
+			
+			// Notes
+			"notes" => $notes,
+			
+			// API key
+			"api_key" => $apiKey
 			
 		], function(string | int | NULL $value): bool {
 		
@@ -104,14 +110,22 @@ class MwcPay {
 	}
 	
 	// Get payment info
-	public function getPaymentInfo(string $paymentId): array | FALSE | NULL {
+	public function getPaymentInfo(string $paymentId, ?string $apiKey = NULL): array | FALSE | NULL {
 	
 		// Check if sending get payment info request to the private server failed
-		$getPaymentInfoResponse = @file_get_contents($this->privateServer . "/get_payment_info?" . http_build_query([
+		$getPaymentInfoResponse = @file_get_contents($this->privateServer . "/get_payment_info?" . http_build_query(array_filter([
 		
 			// Payment ID
-			"payment_id" => $paymentId
-		]));
+			"payment_id" => $paymentId,
+			
+			// API key
+			"api_key" => $apiKey
+			
+		], function(string | int | NULL $value): bool {
+		
+			// Return if value isn't null
+			return $value !== NULL;
+		})));
 		
 		if($getPaymentInfoResponse === FALSE) {
 		
@@ -181,10 +195,19 @@ class MwcPay {
 	}
 	
 	// Get price
-	public function getPrice(): string | FALSE | NULL {
+	public function getPrice(?string $apiKey = NULL): string | FALSE | NULL {
 	
 		// Check if sending get price request to the private server failed
-		$getPriceResponse = @file_get_contents($this->privateServer . "/get_price");
+		$getPriceResponse = @file_get_contents($this->privateServer . "/get_price?" . http_build_query(array_filter([
+		
+			// API key
+			"api_key" => $apiKey
+			
+		], function(string | int | NULL $value): bool {
+		
+			// Return if value isn't null
+			return $value !== NULL;
+		})));
 		
 		if($getPriceResponse === FALSE) {
 		
@@ -229,10 +252,19 @@ class MwcPay {
 	}
 	
 	// Get public server info
-	public function getPublicServerInfo(): array | FALSE | NULL {
+	public function getPublicServerInfo(?string $apiKey = NULL): array | FALSE | NULL {
 	
 		// Check if sending get public server info request to the private server failed
-		$getPublicServerInfoResponse = @file_get_contents($this->privateServer . "/get_public_server_info");
+		$getPublicServerInfoResponse = @file_get_contents($this->privateServer . "/get_public_server_info?" . http_build_query(array_filter([
+		
+			// API key
+			"api_key" => $apiKey
+			
+		], function(string | int | NULL $value): bool {
+		
+			// Return if value isn't null
+			return $value !== NULL;
+		})));
 		
 		if($getPublicServerInfoResponse === FALSE) {
 		

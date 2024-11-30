@@ -138,6 +138,9 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		// Default display format
 		private const WC_Gateway_MWC_Pay_DEFAULT_DISPLAY_FORMAT = "icon";
 		
+		// Default private server API key
+		private const WC_Gateway_MWC_Pay_DEFAULT_PRIVATE_SERVER_API_KEY = "";
+		
 		// Default private server URL
 		private const WC_Gateway_MWC_Pay_DEFAULT_PRIVATE_SERVER_URL = "http://localhost:9010";
 		
@@ -161,6 +164,9 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 		
 		// Display format
 		public readonly string $WC_Gateway_MWC_Pay_displayFormat;
+		
+		// Private server API key
+		private string $WC_Gateway_MWC_Pay_privateServerApiKey;
 		
 		// Private server URL
 		private string $WC_Gateway_MWC_Pay_privateServerUrl;
@@ -208,6 +214,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			$this->icon = ($this->get_option("WC_Gateway_MWC_Pay_icon_type") === "light") ? plugins_url("../assets/images/gateway_icon_light.svg", __FILE__) : plugins_url("../assets/images/gateway_icon_dark.svg", __FILE__);
 			$this->description = $this->get_option("description");
 			$this->WC_Gateway_MWC_Pay_displayFormat = $this->get_option("WC_Gateway_MWC_Pay_display_format");
+			$this->WC_Gateway_MWC_Pay_privateServerApiKey = $this->get_option("WC_Gateway_MWC_Pay_private_server_api_key");
 			$this->WC_Gateway_MWC_Pay_privateServerUrl = $this->get_option("WC_Gateway_MWC_Pay_private_server_url");
 			$this->WC_Gateway_MWC_Pay_discountOrSurchargePercent = $this->get_option("WC_Gateway_MWC_Pay_discount_or_surcharge_percent");
 			$this->WC_Gateway_MWC_Pay_orderTimeout = $this->get_option("WC_Gateway_MWC_Pay_order_timeout");
@@ -304,6 +311,15 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 					"type" => "textarea",
 					"description" => esc_html__("Payment method description that the customer will see on your checkout.", "woocommerce"),
 					"default" => htmlentities(__("Pay with MimbleWimble Coin.", "mwc-pay-woocommerce-extension"), ENT_NOQUOTES, get_bloginfo("charset")),
+					"desc_tip" => TRUE
+				],
+				
+				// Private server API key
+				"WC_Gateway_MWC_Pay_private_server_api_key" => [
+					"title" => esc_html__("Private server API key", "mwc-pay-woocommerce-extension"),
+					"type" => "password",
+					"description" => esc_html__("Optional API key to use when communicating with your MWC Pay private server.", "mwc-pay-woocommerce-extension"),
+					"default" => self::WC_Gateway_MWC_Pay_DEFAULT_PRIVATE_SERVER_API_KEY,
 					"desc_tip" => TRUE
 				],
 				
@@ -513,11 +529,22 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 				if($value !== $this->get_option("WC_Gateway_MWC_Pay_private_server_url")) {
 			
 					// Check if getting a valid response from the MWC Pay private server listening at the value failed
-					$privateServerResponse = (new Nicolasflamel\MwcPay\MwcPay($value))->getPrice();
+					$privateServerResponse = (new Nicolasflamel\MwcPay\MwcPay($value))->getPrice(($this->get_option("WC_Gateway_MWC_Pay_private_server_api_key") === "") ? NULL : $this->get_option("WC_Gateway_MWC_Pay_private_server_api_key"));
 					if($privateServerResponse === FALSE || $privateServerResponse === NULL) {
 					
-						// Display error
-						WC_Admin_Settings::add_error(esc_html__("Getting a valid response from the MWC Pay private server listening at the private server URL failed.", "mwc-pay-woocommerce-extension"));
+						// Check if API key was used and MWC Pay private server responded with an invalid parameters response
+						if($this->get_option("WC_Gateway_MWC_Pay_private_server_api_key") !== "" && $privateServerResponse === NULL) {
+						
+							// Display error
+							WC_Admin_Settings::add_error(esc_html__("Getting a valid response from the MWC Pay private server listening at the private server URL failed. Verify that the private server API key is correct.", "mwc-pay-woocommerce-extension"));
+						}
+						
+						// Otherwise
+						else {
+						
+							// Display error
+							WC_Admin_Settings::add_error(esc_html__("Getting a valid response from the MWC Pay private server listening at the private server URL failed.", "mwc-pay-woocommerce-extension"));
+						}
 						
 						// Return private server URL setting
 						return $this->get_option("WC_Gateway_MWC_Pay_private_server_url");
@@ -1117,7 +1144,8 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 							
 							// Status
 							"{$this->id}_status" => "expired"
-						]));
+							
+						]), get_bloginfo("name") . " - Order #$orderId", ($this->WC_Gateway_MWC_Pay_privateServerApiKey === "") ? NULL : $this->WC_Gateway_MWC_Pay_privateServerApiKey);
 						
 						// Check if creating payment failed
 						if($payment === FALSE || $payment === NULL) {
@@ -2189,7 +2217,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			else {
 			
 				// Get MWC Pay's public server info
-				$publicServerInfo = $this->WC_Gateway_MWC_Pay_mwcPay->getPublicServerInfo();
+				$publicServerInfo = $this->WC_Gateway_MWC_Pay_mwcPay->getPublicServerInfo(($this->WC_Gateway_MWC_Pay_privateServerApiKey === "") ? NULL : $this->WC_Gateway_MWC_Pay_privateServerApiKey);
 				
 				// Check if getting public server info failed
 				if($publicServerInfo === FALSE || $publicServerInfo === NULL) {
@@ -2321,7 +2349,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 			if($price === "") {
 			
 				// Get price from MWC Pay
-				$price = $this->WC_Gateway_MWC_Pay_mwcPay->getPrice();
+				$price = $this->WC_Gateway_MWC_Pay_mwcPay->getPrice(($this->WC_Gateway_MWC_Pay_privateServerApiKey === "") ? NULL : $this->WC_Gateway_MWC_Pay_privateServerApiKey);
 				
 				// Check if getting price was successful and price is negative or zero
 				if($price !== FALSE && $price !== NULL && Brick\Math\BigDecimal::of($price)->isNegativeOrZero() === TRUE) {

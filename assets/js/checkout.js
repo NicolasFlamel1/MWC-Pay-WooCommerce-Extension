@@ -351,6 +351,27 @@
 								})
 							]);
 						}
+						
+						// Otherwise check if prop has a valid children and its value and currency exist and are valid
+						else if("value" in props === true && typeof props.value === "object" && props.value !== null && "props" in props.value === true && typeof props.value.props === "object" && props.value.props !== null && "children" in props.value.props === true && typeof props.value.props.children === "object" && props.value.props.children !== null && "props" in props.value.props.children === true && typeof props.value.props.children.props === "object" && props.value.props.children.props !== null && "className" in props.value.props.children.props == true && /(?:^| )wc-block-components-totals-footer-item-tax-value(?:$| )/u.test(props.value.props.children.props.className) === true && "value" in props.value.props.children.props === true && typeof props.value.props.children.props.value === "number" && Number.isFinite(props.value.props.children.props.value) === true && "currency" in props.value.props.children.props === true && typeof props.value.props.children.props.currency === "object" && props.value.props.children.props.currency !== null && "minorUnit" in props.value.props.children.props.currency === true && typeof props.value.props.children.props.currency.minorUnit === "number") {
+						
+							// Set prop's value's prop's children
+							props.value.props.children = originalCreateElement("span", {}, [
+							
+								// Children
+								props.value.props.children,
+								
+								// Price in currency
+								originalCreateElement(PriceInCurrency, {
+								
+									// Currency
+									currency: props.value.props.children.props.currency,
+									
+									// Value
+									value: props.value.props.children.props.value
+								})
+							]);
+						}
 					}
 					
 					// Otherwise check if creating a price in currency amount
@@ -481,13 +502,35 @@
 					});
 					
 					// Modal cancel button click event
-					this.cancelButton.on("click", () => {
+					this.cancelButton.on("click", async () => {
 					
-						// Cancel order
-						fetch(this.cancelApi);
+						// Disable modal's cancel button
+						this.cancelButton.prop("disabled", true);
 						
-						// Hide payment info
-						this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
+						// Try
+						try {
+						
+							// Check if cancelling order was successful
+							if((await fetch(this.cancelApi)).ok === true) {
+							
+								// Hide payment info
+								this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
+							}
+							
+							// Otherwise
+							else {
+							
+								// Enable modal's cancel button
+								this.cancelButton.prop("disabled", false);
+							}
+						}
+						
+						// Catch errors
+						catch(error) {
+						
+							// Enable modal's cancel button
+							this.cancelButton.prop("disabled", false);
+						}
 					});
 					
 					// Window before unload event
@@ -509,8 +552,11 @@
 						// Check if modal is shown and not bypassing unload interrupt
 						if(this.modal.hasClass("MwcPayWooCommerceExtension_checkout_hide") === false && this.bypassUnloadInterrupt === false) {
 						
-							// Trigger click on modal's cancel button
-							this.cancelButton.trigger("click");
+							// Cancel order
+							fetch(this.cancelApi);
+							
+							// Hide payment info
+							this.hidePaymentInfo(wp.escapeHtml.escapeEditableHTML(wp.i18n.__("Order was cancelled.", "mwc-pay-woocommerce-extension")));
 						}
 						
 						// Otherwise

@@ -1654,7 +1654,7 @@ if(class_exists("MwcPayWooCommerceExtension") === TRUE && isset($pluginBasename)
 				else {
 				
 					// Return icon
-					return "<img " . (($this->WC_Gateway_MWC_Pay_displayFormat === "icon") ? "style=\"margin-left: 0;\"" : "style=\"max-height: 24px;\"") . " src=\"" . esc_url($this->icon) . "\" alt=\"" . esc_attr($this->title) . "\">";
+					return "<img " . (($this->WC_Gateway_MWC_Pay_displayFormat === "icon") ? "style=\"margin-left: 0; margin-bottom: -6px;\"" : "style=\"max-height: 24px; margin-bottom: -2px;\"") . " src=\"" . esc_url($this->icon) . "\" alt=\"" . esc_attr($this->title) . "\">";
 				}
 			}
 			

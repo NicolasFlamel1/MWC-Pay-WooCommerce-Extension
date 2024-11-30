@@ -44,9 +44,16 @@
 							// Margin right
 							"margin-right": "0",
 							
+							// Margin bottom
+							"margin-bottom": "-8px",
+							
 							// Display
 							display: "initial"
-						} : {}
+						} : {
+						
+							// Margin bottom
+							"margin-bottom": "-2px"
+						}
 					}) : ""
 				})),
 				

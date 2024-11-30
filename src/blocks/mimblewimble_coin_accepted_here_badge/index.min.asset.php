@@ -19,7 +19,7 @@ return [
 	"dependencies" => ["wp-block-editor", "wp-blocks", "wp-element", "wp-i18n", "MwcPayWooCommerceExtension_blocks_script"],
 	
 	// Version
-	"version" => "0.1.6"
+	"version" => "0.1.7"
 ];
 
 

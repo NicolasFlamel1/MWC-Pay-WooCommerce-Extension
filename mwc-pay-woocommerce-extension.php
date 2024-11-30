@@ -66,6 +66,7 @@ if(class_exists("MwcPayWooCommerceExtension") === FALSE) {
 			register_uninstall_hook(__FILE__, "MwcPayWooCommerceExtension::removeCurrencyExchangeRatesTableInDatabase");
 			
 			// Update currency exchange rates
+			register_activation_hook(__FILE__, "MwcPayWooCommerceExtension::updateCurrencyExchangeRates");
 			add_action(self::UPDATE_CURRENCY_EXCHANGE_RATES_ACTION_NAME, "MwcPayWooCommerceExtension::updateCurrencyExchangeRates");
 			
 			// Schedule updating currency exchange rates
